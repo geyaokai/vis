@@ -9,6 +9,7 @@ import com.telco.dao.TelcoDao;
 import com.google.gson.Gson;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.List;
 
 public class ChartService {
     private TelcoDao telcoDao = new TelcoDao();
@@ -22,6 +23,16 @@ public class ChartService {
     public String getContractChurnAnalysis() throws SQLException {
         Map<String, Map<String, Integer>> analysis = telcoDao.getContractChurnAnalysis();
         return gson.toJson(analysis);
+    }
+
+    public String getGenderDistributionData() throws SQLException {
+        Map<String, Map<String, Integer>> distribution = telcoDao.getGenderDistribution();
+        return gson.toJson(distribution);
+    }
+
+    public String getAgeServiceData() throws SQLException {
+        Map<String, List<Double>> usage = telcoDao.getAgeServiceUsage();
+        return gson.toJson(usage);
     }
     
     // 添加更多服务方法...

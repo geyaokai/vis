@@ -4,87 +4,7 @@
     <meta charset="UTF-8">
     <title>电信客户流失分析</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #001529;
-            font-family: "Microsoft YaHei", sans-serif;
-            color: #fff;
-        }
-        
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        .sidebar {
-            width: 200px;
-            background-color: #001529;
-            padding: 20px 0;
-            border-right: 1px solid #1890ff;
-        }
-        
-        .sidebar-title {
-            color: #1890ff;
-            text-align: center;
-            padding: 10px;
-            font-size: 16px;
-            border-bottom: 1px solid #1890ff;
-            margin-bottom: 20px;
-        }
-        
-        .nav-item {
-            padding: 12px 24px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background-color: #1890ff;
-        }
-        
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #041633;
-        }
-        
-        .page-title {
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-        
-        .charts-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 20px;
-        }
-        
-        .chart-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .chart {
-            width: 100%;
-            height: 400px;
-        }
-        
-        .section {
-            display: none;
-        }
-        
-        .section.active {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="layout">
@@ -153,82 +73,11 @@
         </div>
     </div>
 
-    <script>
-        // 导航控制
-        function showSection(sectionId) {
-            // 隐藏所有section
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            // 显示选中的section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // 更新导航项的激活状态
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // 触发窗口resize事件，确保图表正确渲染
-            window.dispatchEvent(new Event('resize'));
-        }
-
-        // 初始化所有图表
-        const charts = {};
-        
-        // 初始化函数
-        function initCharts() {
-            // 客户流失分析图表
-            charts.churnDistribution = echarts.init(document.getElementById('churnDistribution'));
-            charts.contractAnalysis = echarts.init(document.getElementById('contractAnalysis'));
-            
-            // 人口统计分析图表
-            charts.genderDistribution = echarts.init(document.getElementById('genderDistribution'));
-            charts.ageServiceRadar = echarts.init(document.getElementById('ageServiceRadar'));
-            
-            // 服务使用分析图表
-            charts.serviceHeatmap = echarts.init(document.getElementById('serviceHeatmap'));
-            charts.serviceTrend = echarts.init(document.getElementById('serviceTrend'));
-            
-            // 财务分析图表
-            charts.chargesScatter = echarts.init(document.getElementById('chargesScatter'));
-            charts.chargesBoxplot = echarts.init(document.getElementById('chargesBoxplot'));
-            
-            // 设置响应式
-            window.addEventListener('resize', function() {
-                Object.values(charts).forEach(chart => chart.resize());
-            });
-        }
-
-        // 页面加载完成后初始化图表
-        document.addEventListener('DOMContentLoaded', function() {
-            initCharts();
-            // 加载各个图表的数据和配置
-            loadChurnAnalysis();
-            loadDemographicAnalysis();
-            loadServiceAnalysis();
-            loadFinancialAnalysis();
-        });
-
-        // 这里是您原有的图表配置代码...
-        // 保留原有的churnDistribution和contractAnalysis的配置和数据加载代码
-        
-        // 添加新的图表加载函数
-        function loadChurnAnalysis() {
-            // 原有的客户流失分析图表代码
-        }
-        
-        function loadDemographicAnalysis() {
-            // 人口统计分析图表代码将在下一部分提供
-        }
-        
-        function loadServiceAnalysis() {
-            // 服务使用分析图表代码将在下一部分提供
-        }
-        
-        function loadFinancialAnalysis() {
-            // 财务分析图表代码将在下一部分提供
-        }
-    </script>
+    <!-- 引入所有JS文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/churnAnalysis.js"></script>
+    <script src="js/demographicAnalysis.js"></script>
+    <script src="js/serviceAnalysis.js"></script>
+    <script src="js/financialAnalysis.js"></script>
 </body>
 </html> 
