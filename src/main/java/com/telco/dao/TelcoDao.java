@@ -17,7 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.Collections;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TelcoDao {
     // 获取流失分布数据
     public Map<String, Integer> getChurnDistribution() throws SQLException {
@@ -221,5 +224,128 @@ public class TelcoDao {
         return trends;
     }
     
+    // 获取费用散点图数据
+    public List<List<Object>> getChargesScatterData() throws SQLException {
+        List<List<Object>> scatterData = new ArrayList<>();
+        String sql = "SELECT MonthlyCharges, " +
+                    "CASE WHEN TotalCharges = '' OR TotalCharges IS NULL THEN 0 " +
+                    "ELSE CAST(TotalCharges AS DECIMAL(10,2)) END as TotalCharges, " +
+                    "CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END as is_churn " +
+                    "FROM customers " +
+                    "WHERE MonthlyCharges IS NOT NULL";
+        
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            log.info("Starting to fetch charges scatter data");
+            
+            while (rs.next()) {
+                try {
+                    double monthlyCharges = rs.getDouble("MonthlyCharges");
+                    double totalCharges = rs.getDouble("TotalCharges");
+                    boolean isChurn = rs.getBoolean("is_churn");
+                    
+                    log.debug("Processing row: monthly={}, total={}, churn={}", 
+                             monthlyCharges, totalCharges, isChurn);
+                    
+                    if (!rs.wasNull() && monthlyCharges >= 0 && totalCharges >= 0) {
+                        List<Object> point = Arrays.asList(
+                            monthlyCharges,
+                            totalCharges,
+                            isChurn
+                        );
+                        scatterData.add(point);
+                    }
+                } catch (SQLException e) {
+                    log.error("Error processing row: ", e);
+                    continue;
+                }
+            }
+            
+            log.info("Finished fetching charges scatter data. Total points: {}", scatterData.size());
+        }
+        return scatterData;
+    }
+
+    // 获取费用箱线图数据
+    public Map<String, Object> getChargesBoxplotData() throws SQLException {
+        Map<String, Object> result = new HashMap<>();
+        List<List<Double>> boxData = new ArrayList<>();
+        List<List<Object>> outliers = new ArrayList<>();
+        
+        String sql = "SELECT Contract, MonthlyCharges " +
+                    "FROM customers " +
+                    "ORDER BY Contract, MonthlyCharges";
+        
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            Map<String, List<Double>> contractCharges = new HashMap<>();
+            while (rs.next()) {
+                String contract = rs.getString("Contract");
+                double charge = rs.getDouble("MonthlyCharges");
+                contractCharges.computeIfAbsent(contract, k -> new ArrayList<>()).add(charge);
+            }
+            
+            // 计算每种合同类型的箱线图数据
+            for (String contract : Arrays.asList("Month-to-month", "One year", "Two year")) {
+                List<Double> charges = contractCharges.get(contract);
+                if (charges != null && !charges.isEmpty()) {
+                    Collections.sort(charges);
+                    
+                    double q1 = getQuantile(charges, 0.25);
+                    double q3 = getQuantile(charges, 0.75);
+                    double iqr = q3 - q1;
+                    double lowerFence = q1 - 1.5 * iqr;
+                    double upperFence = q3 + 1.5 * iqr;
+                    
+                    // 找出异常值和非异常值
+                    List<Double> normalValues = new ArrayList<>();
+                    for (Double charge : charges) {
+                        if (charge >= lowerFence && charge <= upperFence) {
+                            normalValues.add(charge);
+                        } else {
+                            outliers.add(Arrays.asList(
+                                getContractIndex(contract),
+                                charge
+                            ));
+                        }
+                    }
+                    
+                    // 箱线图五个数值点：最小值、Q1、中位数、Q3、最大值
+                    boxData.add(Arrays.asList(
+                        normalValues.get(0),                    // 最小值
+                        q1,                                     // 下四分位
+                        getQuantile(normalValues, 0.5),         // 中位数
+                        q3,                                     // 上四分位
+                        normalValues.get(normalValues.size()-1) // 最大值
+                    ));
+                }
+            }
+        }
+        
+        result.put("boxData", boxData);
+        result.put("outliers", outliers);
+        return result;
+    }
+
+    // 辅助方法：计算分位数
+    private double getQuantile(List<Double> data, double quantile) {
+        int index = (int) Math.ceil(quantile * data.size()) - 1;
+        return data.get(Math.max(0, Math.min(data.size() - 1, index)));
+    }
+
+    // 辅助方法：获取合同类型的索引
+    private int getContractIndex(String contract) {
+        switch (contract) {
+            case "Month-to-month": return 0;
+            case "One year": return 1;
+            case "Two year": return 2;
+            default: return -1;
+        }
+    }
+
     // 添加更多数据访问方法...
 } 

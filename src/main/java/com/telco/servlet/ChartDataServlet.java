@@ -59,6 +59,14 @@ public class ChartDataServlet extends HttpServlet {
                     jsonData = chartService.getServiceTrendData();
                     log.info("Service trend data: {}", jsonData);
                     break;
+                case "charges-scatter":
+                    jsonData = chartService.getChargesScatterData();
+                    log.info("Charges scatter data: {}", jsonData);
+                    break;
+                case "charges-boxplot":
+                    jsonData = chartService.getChargesBoxplotData();
+                    log.info("Charges boxplot data: {}", jsonData);
+                    break;
                 default:
                     log.warn("Invalid type parameter: {}", type);
                     resp.setStatus(400);
