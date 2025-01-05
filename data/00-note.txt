@@ -1,0 +1,112 @@
+运营商用户流失率
+	1）数据集描述
+
+	数据下载地址：Telco Customer Churn（https://www.kaggle.com/datasets/blastchar/telco-customer-churn）
+
+	1，customerID(String)--用户ID
+
+	2，gender(String)--性别（男，女）
+
+	3，SeniorCitizen(Numeric)--用户是否属于老年人(1:是 0:不是)
+
+	4，Partner(String)--用户是否有伴侣(是，否)
+
+	5，Dependents(String)--用户是否有受赡养者（是，否）
+
+	6，tenure(Numeric)--用户在网多少个月
+
+	7，PhoneService(String)--用户是否有电话服务（是，否）
+
+	8，MultipleLines(String)--用户是否有多线服务（是，否）
+
+	9，InternetService(String)--用户的上网服务提供商（DSL，Fiber optic）
+
+	10，OnlineSecurity(String)--用户是否有在线安全服务（是，否）
+
+	11，OnlineBackup(String)--用户是否有在线备份服务（是，否）
+
+	12，DeviceProtection(String)--用户是否做了设备保护（是，否）
+
+	13，TechSupport(String)--用户是否有技术支持服务（是，否）
+
+	14，StreamingTV(String)--用户是否有stream Tv服务(是，否)
+
+	15，StreamingMovies(String)--用户是否有stream movie服务（是，否）
+
+	16，Contract(String)--用户的合同期是怎样的（一个月，一年，两年）
+
+	17，PaperlessBilli(String)--用户是否有无纸账单（是，否）
+
+	18，PaymentMethod(String)--用户支付方式（电子支票，邮寄支票，银行转账）
+
+	19，MonthlyCharges(Numeric)--用户每月缴纳的费用
+
+	20，TotalCharges(Numeric)--用户历史总共缴纳的费用
+
+	21，Churn(Numeric)--用户现在是否流失转
+
+	2）社群会员作业
+
+	第1关行业选择：数据分析小白的进击之路（https://zhuanlan.zhihu.com/p/49580009）
+
+
+About Dataset
+Context
+"Predict behavior to retain customers. You can analyze all relevant customer data and develop focused customer retention programs." [IBM Sample Data Sets]
+
+Content
+Each row represents a customer, each column contains customer’s attributes described on the column Metadata.
+
+The data set includes information about:
+
+Customers who left within the last month – the column is called Churn
+Services that each customer has signed up for – phone, multiple lines, internet, online security, online backup, device protection, tech support, and streaming TV and movies
+Customer account information – how long they’ve been a customer, contract, payment method, paperless billing, monthly charges, and total charges
+Demographic info about customers – gender, age range, and if they have partners and dependents
+
+About Dataset
+Context
+"Predict behavior to retain customers. You can analyze all relevant customer data and develop focused customer retention programs." [IBM Sample Data Sets]
+
+Content
+Each row represents a customer, each column contains customer’s attributes described on the column Metadata.
+
+The data set includes information about:
+
+Customers who left within the last month – the column is called Churn
+Services that each customer has signed up for – phone, multiple lines, internet, online security, online backup, device protection, tech support, and streaming TV and movies
+Customer account information – how long they’ve been a customer, contract, payment method, paperless billing, monthly charges, and total charges
+Demographic info about customers – gender, age range, and if they have partners and dependents
+About Dataset
+Context
+"Predict behavior to retain customers. You can analyze all relevant customer data and develop focused customer retention programs." [IBM Sample Data Sets]
+
+Content
+Each row represents a customer, each column contains customer’s attributes described on the column Metadata.
+
+The data set includes information about:
+
+Customers who left within the last month – the column is called Churn
+Services that each customer has signed up for – phone, multiple lines, internet, online security, online backup, device protection, tech support, and streaming TV and movies
+Customer account information – how long they’ve been a customer, contract, payment method, paperless billing, monthly charges, and total charges
+Demographic info about customers – gender, age range, and if they have partners and dependents
+
+关于数据集
+
+背景
+
+“预测行为以留住客户。您可以分析所有相关的客户数据，并制定有针对性的客户留住计划。”[IBM示例数据集]
+
+内容
+
+每一行代表一个客户，每一列包含元数据列上描述的客户属性。
+
+数据集包括以下信息：
+
+上个月内离职的客户——该专栏名为“流失”
+
+每位客户已注册的服务——电话、多条线路、互联网、在线安全、在线备份、设备保护、技术支持以及流媒体电视和电影
+
+客户账户信息——他们成为客户的时间、合同、付款方式、无纸化账单、月费和总费用
+
+客户的人口统计信息——性别、年龄范围，以及他们是否有伴侣和家属

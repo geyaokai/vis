@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Test</h1>
+    <button onclick="testChurn()">Test Churn API</button>
+    <button onclick="testContract()">Test Contract API</button>
+    <pre id="result"></pre>
+
+    <script>
+        function testChurn() {
+            fetch('api/chart-data?type=churn')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('result').textContent = 'Error: ' + error;
+                });
+        }
+
+        function testContract() {
+            fetch('api/chart-data?type=contract')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').textContent = data;
+                })
+                .catch(error => {
+                    document.getElementById('result').textContent = 'Error: ' + error;
+                });
+        }
+    </script>
+</body>
+</html> 
