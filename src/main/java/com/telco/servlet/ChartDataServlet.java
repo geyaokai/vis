@@ -34,16 +34,27 @@ public class ChartDataServlet extends HttpServlet {
         
         try {
             String jsonData = "";
-            if ("churn".equals(type)) {
-                jsonData = chartService.getChurnDistributionData();
-                log.info("Churn data: {}", jsonData);
-            } else if ("contract".equals(type)) {
-                jsonData = chartService.getContractChurnAnalysis();
-                log.info("Contract data: {}", jsonData);
-            } else {
-                log.warn("Invalid type parameter: {}", type);
-                resp.setStatus(400);
-                jsonData = "{\"error\": \"Invalid type parameter\"}";
+            switch (type) {
+                case "churn":
+                    jsonData = chartService.getChurnDistributionData();
+                    log.info("Churn data: {}", jsonData);
+                    break;
+                case "contract":
+                    jsonData = chartService.getContractChurnAnalysis();
+                    log.info("Contract data: {}", jsonData);
+                    break;
+                case "gender":
+                    jsonData = chartService.getGenderDistributionData();
+                    log.info("Gender data: {}", jsonData);
+                    break;
+                case "age-service":
+                    jsonData = chartService.getAgeServiceData();
+                    log.info("Age-service data: {}", jsonData);
+                    break;
+                default:
+                    log.warn("Invalid type parameter: {}", type);
+                    resp.setStatus(400);
+                    jsonData = "{\"error\": \"Invalid type parameter\"}";
             }
             resp.getWriter().write(jsonData);
         } catch (Exception e) {

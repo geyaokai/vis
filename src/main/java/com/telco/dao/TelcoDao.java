@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Arrays;
 
 public class TelcoDao {
-    
+    // 获取流失分布数据
     public Map<String, Integer> getChurnDistribution() throws SQLException {
         Map<String, Integer> distribution = new HashMap<>();
         String sql = "SELECT Churn, COUNT(*) as count FROM customers GROUP BY Churn";
@@ -35,6 +35,7 @@ public class TelcoDao {
         return distribution;
     }
 
+    // 获取合同类型流失分析数据
     public Map<String, Map<String, Integer>> getContractChurnAnalysis() throws SQLException {
         Map<String, Map<String, Integer>> analysis = new HashMap<>();
         String sql = "SELECT Contract, Churn, COUNT(*) as count FROM customers GROUP BY Contract, Churn";
@@ -55,6 +56,7 @@ public class TelcoDao {
         return analysis;
     }
 
+    // 获取性别流失分布数据
     public Map<String, Map<String, Integer>> getGenderDistribution() throws SQLException {
         Map<String, Map<String, Integer>> distribution = new HashMap<>();
         String sql = "SELECT gender, Churn, COUNT(*) as count FROM customers GROUP BY gender, Churn";
@@ -75,31 +77,29 @@ public class TelcoDao {
         return distribution;
     }
 
+    // 获取年龄服务使用情况数据
     public Map<String, List<Double>> getAgeServiceUsage() throws SQLException {
         Map<String, List<Double>> usage = new HashMap<>();
-        String sql = """
-            SELECT 
-                CASE 
-                    WHEN SeniorCitizen = 1 THEN 'senior'
-                    WHEN tenure < 24 THEN 'young'
-                    ELSE 'middle'
-                END as age_group,
-                AVG(CASE WHEN PhoneService = 'Yes' THEN 100 ELSE 0 END) as phone_service,
-                AVG(CASE WHEN InternetService != 'No' THEN 100 ELSE 0 END) as internet_service,
-                AVG(CASE WHEN OnlineSecurity = 'Yes' THEN 100 ELSE 0 END) as online_security,
-                AVG(CASE WHEN OnlineBackup = 'Yes' THEN 100 ELSE 0 END) as online_backup,
-                AVG(CASE WHEN DeviceProtection = 'Yes' THEN 100 ELSE 0 END) as device_protection,
-                AVG(CASE WHEN TechSupport = 'Yes' THEN 100 ELSE 0 END) as tech_support,
-                AVG(CASE WHEN StreamingTV = 'Yes' THEN 100 ELSE 0 END) as streaming_tv,
-                AVG(CASE WHEN StreamingMovies = 'Yes' THEN 100 ELSE 0 END) as streaming_movies
-            FROM customers
-            GROUP BY 
-                CASE 
-                    WHEN SeniorCitizen = 1 THEN 'senior'
-                    WHEN tenure < 24 THEN 'young'
-                    ELSE 'middle'
-                END
-        """;
+        String sql = "SELECT " +
+            "CASE " +
+                "WHEN SeniorCitizen = 1 THEN 'senior' " +
+                "WHEN tenure < 24 THEN 'young' " +
+                "ELSE 'middle' " +
+            "END as age_group, " +
+            "AVG(CASE WHEN PhoneService = 'Yes' THEN 100 ELSE 0 END) as phone_service, " +
+            "AVG(CASE WHEN InternetService != 'No' THEN 100 ELSE 0 END) as internet_service, " +
+            "AVG(CASE WHEN OnlineSecurity = 'Yes' THEN 100 ELSE 0 END) as online_security, " +
+            "AVG(CASE WHEN OnlineBackup = 'Yes' THEN 100 ELSE 0 END) as online_backup, " +
+            "AVG(CASE WHEN DeviceProtection = 'Yes' THEN 100 ELSE 0 END) as device_protection, " +
+            "AVG(CASE WHEN TechSupport = 'Yes' THEN 100 ELSE 0 END) as tech_support, " +
+            "AVG(CASE WHEN StreamingTV = 'Yes' THEN 100 ELSE 0 END) as streaming_tv, " +
+            "AVG(CASE WHEN StreamingMovies = 'Yes' THEN 100 ELSE 0 END) as streaming_movies " +
+            "FROM customers " +
+            "GROUP BY CASE " +
+                "WHEN SeniorCitizen = 1 THEN 'senior' " +
+                "WHEN tenure < 24 THEN 'young' " +
+                "ELSE 'middle' " +
+            "END";
         
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

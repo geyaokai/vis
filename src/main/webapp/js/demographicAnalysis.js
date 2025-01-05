@@ -130,12 +130,14 @@ function loadDemographicAnalysis() {
         },
         legend: {
             data: ['青年', '中年', '老年'],
-            bottom: 0,
+            bottom: 10,
             textStyle: {
                 color: '#fff'
             }
         },
         radar: {
+            center: ['50%', '55%'],
+            radius: '60%',
             indicator: [
                 { name: '电话服务', max: 100 },
                 { name: '互联网服务', max: 100 },
@@ -149,7 +151,9 @@ function loadDemographicAnalysis() {
             shape: 'circle',
             splitNumber: 4,
             axisName: {
-                color: '#fff'
+                color: '#fff',
+                fontSize: 12,
+                padding: [3, 5]
             },
             splitLine: {
                 lineStyle: {
@@ -172,6 +176,10 @@ function loadDemographicAnalysis() {
             {
                 name: '年龄段服务使用',
                 type: 'radar',
+                symbolSize: 4,
+                lineStyle: {
+                    width: 2
+                },
                 data: [
                     {
                         name: '青年',
@@ -180,7 +188,7 @@ function loadDemographicAnalysis() {
                             color: '#5470c6'
                         },
                         areaStyle: {
-                            opacity: 0.3
+                            opacity: 0.2
                         }
                     },
                     {
@@ -190,7 +198,7 @@ function loadDemographicAnalysis() {
                             color: '#91cc75'
                         },
                         areaStyle: {
-                            opacity: 0.3
+                            opacity: 0.2
                         }
                     },
                     {
@@ -200,7 +208,7 @@ function loadDemographicAnalysis() {
                             color: '#fac858'
                         },
                         areaStyle: {
-                            opacity: 0.3
+                            opacity: 0.2
                         }
                     }
                 ]
