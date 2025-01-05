@@ -54,6 +54,26 @@ public class ChartService {
         Map<String, Object> boxplotData = telcoDao.getChargesBoxplotData();
         return gson.toJson(boxplotData);
     }
+
+    public String getFinancialStatsData() throws SQLException {
+        Map<String, Object> stats = telcoDao.getFinancialStats();
+        return gson.toJson(stats);
+    }
+
+    public String getLifeCycleAnalysisData() throws SQLException {
+        Map<String, Object> analysis = telcoDao.getLifeCycleAnalysis();
+        return gson.toJson(analysis);
+    }
+
+    public String getChurnPathData() throws SQLException {
+        Map<String, Object> data = telcoDao.getChurnPathData();
+        return gson.toJson(data);
+    }
+
+    public String getChurnFunnelData() throws SQLException {
+        Map<String, Object> data = telcoDao.getChurnFunnelData();
+        return gson.toJson(data);
+    }
     
     // 添加更多服务方法...
 } 

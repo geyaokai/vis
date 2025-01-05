@@ -19,56 +19,114 @@
         
         <!-- 主要内容区域 -->
         <div class="main-content">
-            <!-- 客户流失分析 -->
-            <div id="churn-analysis" class="section active">
-                <h1 class="page-title">客户流失分析</h1>
-                <div class="charts-container">
-                    <div class="chart-container">
-                        <div id="churnDistribution" class="chart"></div>
+            <div class="slide-container">
+                <!-- 客户流失分析 -->
+                <div id="churn-analysis" class="section">
+                    <h1 class="page-title">客户流失分析</h1>
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="lifeCycleAnalysis" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="contractAnalysis" class="chart"></div>
+                        </div>
                     </div>
-                    <div class="chart-container">
-                        <div id="contractAnalysis" class="chart"></div>
+                    <!-- 添加新的图表容器 -->
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="churnPathSankey" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="churnFunnel" class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 人口统计分析 -->
+                <div id="demographic-analysis" class="section">
+                    <h1 class="page-title">人口统计分析</h1>
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="genderDistribution" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="ageServiceRadar" class="chart"></div>
+                        </div>
+                    </div>
+                    <div class="section" id="demographicAnalysis">
+                        <h2 class="page-title">人口统计分析</h2>
+                        <div class="charts-container">
+                            <div class="chart-container">
+                                <div id="ageBubble" class="chart"></div>
+                            </div>
+                            <div class="chart-container">
+                                <div id="demographicSankey" class="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 服务使用分析 -->
+                <div id="service-analysis" class="section">
+                    <h1 class="page-title">服务使用分析</h1>
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="serviceHeatmap" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="serviceTrend" class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 财务分析 -->
+                <div id="financial-analysis" class="section">
+                    <h1 class="page-title">财务分析</h1>
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="chargesScatter" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="chargesBoxplot" class="chart"></div>
+                        </div>
+                    </div>
+                    <!-- 添加统计指标卡片容器 -->
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-title">月均消费</div>
+                            <div class="stat-value" id="avgMonthlyCharges">--</div>
+                            <div class="stat-trend up">↑ 5.2%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">客单价</div>
+                            <div class="stat-value" id="avgTotalCharges">--</div>
+                            <div class="stat-trend down">↓ 2.1%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">高消费客户</div>
+                            <div class="stat-value" id="highValueCustomers">--</div>
+                            <div class="stat-trend up">↑ 3.8%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">收入贡献率</div>
+                            <div class="stat-value" id="revenueContribution">--</div>
+                            <div class="stat-trend up">↑ 1.5%</div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 人口统计分析 -->
-            <div id="demographic-analysis" class="section">
-                <h1 class="page-title">人口统计分析</h1>
-                <div class="charts-container">
-                    <div class="chart-container">
-                        <div id="genderDistribution" class="chart"></div>
-                    </div>
-                    <div class="chart-container">
-                        <div id="ageServiceRadar" class="chart"></div>
-                    </div>
-                </div>
+            <!-- 添加滑动轨道 -->
+            <div class="slide-track">
+                <div class="slide-handle"></div>
             </div>
             
-            <!-- 服务使用分析 -->
-            <div id="service-analysis" class="section">
-                <h1 class="page-title">服务使用分析</h1>
-                <div class="charts-container">
-                    <div class="chart-container">
-                        <div id="serviceHeatmap" class="chart"></div>
-                    </div>
-                    <div class="chart-container">
-                        <div id="serviceTrend" class="chart"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 财务分析 -->
-            <div id="financial-analysis" class="section">
-                <h1 class="page-title">财务分析</h1>
-                <div class="charts-container">
-                    <div class="chart-container">
-                        <div id="chargesScatter" class="chart"></div>
-                    </div>
-                    <div class="chart-container">
-                        <div id="chargesBoxplot" class="chart"></div>
-                    </div>
-                </div>
+            <!-- 添加页面指示器 -->
+            <div class="page-indicator">
+                <div class="page-dot active" data-index="0"></div>
+                <div class="page-dot" data-index="1"></div>
+                <div class="page-dot" data-index="2"></div>
+                <div class="page-dot" data-index="3"></div>
             </div>
         </div>
     </div>

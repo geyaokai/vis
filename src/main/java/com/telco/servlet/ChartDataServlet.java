@@ -67,6 +67,22 @@ public class ChartDataServlet extends HttpServlet {
                     jsonData = chartService.getChargesBoxplotData();
                     log.info("Charges boxplot data: {}", jsonData);
                     break;
+                case "financial-stats":
+                    jsonData = chartService.getFinancialStatsData();
+                    log.info("Financial stats data: {}", jsonData);
+                    break;
+                case "lifecycle":
+                    jsonData = chartService.getLifeCycleAnalysisData();
+                    log.info("Lifecycle analysis data: {}", jsonData);
+                    break;
+                case "churn-path":
+                    jsonData = chartService.getChurnPathData();
+                    log.info("Churn path data: {}", jsonData);
+                    break;
+                case "churn-funnel":
+                    jsonData = chartService.getChurnFunnelData();
+                    log.info("Churn funnel data: {}", jsonData);
+                    break;
                 default:
                     log.warn("Invalid type parameter: {}", type);
                     resp.setStatus(400);

@@ -27,7 +27,10 @@ function loadServiceAnalysis() {
         },
         grid: {
             top: '60px',
-            bottom: '20%'
+            left: '3%',
+            right: '4%',
+            bottom: '50px',
+            containLabel: true
         },
         xAxis: {
             type: 'category',
@@ -38,7 +41,12 @@ function loadServiceAnalysis() {
             axisLabel: {
                 color: '#fff',
                 interval: 0,
-                rotate: 45
+                rotate: 45,
+                margin: 15,
+                align: 'right',
+                textStyle: {
+                    fontSize: 11
+                }
             },
             axisLine: {
                 lineStyle: {
@@ -67,10 +75,13 @@ function loadServiceAnalysis() {
             calculable: true,
             orient: 'horizontal',
             left: 'center',
-            bottom: '0%',
+            bottom: '15px',
+            itemWidth: 15,
+            itemHeight: 80,
             text: ['高', '低'],
             textStyle: {
-                color: '#fff'
+                color: '#fff',
+                fontSize: 12
             },
             inRange: {
                 color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', 
