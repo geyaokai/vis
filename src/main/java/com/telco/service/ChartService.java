@@ -34,26 +34,6 @@ public class ChartService {
         Map<String, List<Double>> usage = telcoDao.getAgeServiceUsage();
         return gson.toJson(usage);
     }
-
-    public String getServiceCorrelationData() throws SQLException {
-        List<List<Double>> correlation = telcoDao.getServiceCorrelation();
-        return gson.toJson(correlation);
-    }
-
-    public String getServiceTrendData() throws SQLException {
-        Map<String, List<Double>> trends = telcoDao.getServiceTrend();
-        return gson.toJson(trends);
-    }
-
-    public String getChargesScatterData() throws SQLException {
-        List<List<Object>> scatterData = telcoDao.getChargesScatterData();
-        return gson.toJson(scatterData);
-    }
-
-    public String getChargesBoxplotData() throws SQLException {
-        Map<String, Object> boxplotData = telcoDao.getChargesBoxplotData();
-        return gson.toJson(boxplotData);
-    }
     
     // 添加更多服务方法...
 } 
