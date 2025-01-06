@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <title>电信客户流失分析</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="layout">
         <!-- 左侧导航栏 -->
@@ -16,7 +18,7 @@
             <div class="nav-item" onclick="showSection('service-analysis')">服务使用分析</div>
             <div class="nav-item" onclick="showSection('financial-analysis')">财务分析</div>
         </div>
-        
+
         <!-- 主要内容区域 -->
         <div class="main-content">
             <div class="slide-container">
@@ -41,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 人口统计分析 -->
                 <div id="demographic-analysis" class="section">
                     <h1 class="page-title">人口统计分析</h1>
@@ -53,19 +55,17 @@
                             <div id="ageServiceRadar" class="chart"></div>
                         </div>
                     </div>
-                    <div class="section" id="demographicAnalysis">
-                        <h2 class="page-title">人口统计分析</h2>
-                        <div class="charts-container">
-                            <div class="chart-container">
-                                <div id="ageBubble" class="chart"></div>
-                            </div>
-                            <div class="chart-container">
-                                <div id="demographicSankey" class="chart"></div>
-                            </div>
+
+                    <div class="charts-container">
+                        <div class="chart-container">
+                            <div id="ageBubble" class="chart"></div>
+                        </div>
+                        <div class="chart-container">
+                            <div id="demographicSankey" class="chart"></div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 服务使用分析 -->
                 <div id="service-analysis" class="section">
                     <h1 class="page-title">服务使用分析</h1>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 财务分析 -->
                 <div id="financial-analysis" class="section">
                     <h1 class="page-title">财务分析</h1>
@@ -115,12 +115,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 添加滑动轨道 -->
             <div class="slide-track">
                 <div class="slide-handle"></div>
             </div>
-            
+
             <!-- 添加页面指示器 -->
             <div class="page-indicator">
                 <div class="page-dot active" data-index="0"></div>
@@ -138,4 +138,5 @@
     <script src="js/serviceAnalysis.js"></script>
     <script src="js/financialAnalysis.js"></script>
 </body>
-</html> 
+
+</html>
