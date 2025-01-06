@@ -669,9 +669,10 @@ public class TelcoDao {
                 "END as customer_group, " +
                 "AVG(MonthlyCharges) as avg_charges, " +
                 "COUNT(*) as customer_count, " +
-                "(SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as churn_rate " +
+                "(COUNT(CASE WHEN Churn = 'Yes' THEN 1 END) * 100.0 / COUNT(*)) as churn_rate " +
                 "FROM customers " +
-                "GROUP BY CASE " +
+                "GROUP BY " +
+                "CASE " +
                 "WHEN SeniorCitizen = 1 THEN " +
                 "   CASE WHEN tenure >= 24 THEN '老年用户-成熟' ELSE '老年用户-新客' END " +
                 "ELSE " +
@@ -756,6 +757,110 @@ public class TelcoDao {
                 link.put("target", serviceLevel);
                 link.put("value", count);
                 links.add(link);
+            }
+        }
+
+        result.put("nodes", nodes);
+        result.put("links", links);
+        return result;
+    }
+
+    /**
+     * 获取服务与流失关系数据
+     */
+    public Map<String, Object> getServiceChurnRelation() throws SQLException {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> links = new ArrayList<>();
+
+        String sql = "WITH service_stats AS (" +
+            "SELECT " +
+            "  COUNT(*) as total_churned, " +
+            "  SUM(CASE WHEN PhoneService = 'Yes' THEN 1 ELSE 0 END) as phone_users, " +
+            "  SUM(CASE WHEN InternetService != 'No' THEN 1 ELSE 0 END) as internet_users, " +
+            "  SUM(CASE WHEN OnlineSecurity = 'Yes' THEN 1 ELSE 0 END) as security_users, " +
+            "  SUM(CASE WHEN OnlineBackup = 'Yes' THEN 1 ELSE 0 END) as backup_users, " +
+            "  SUM(CASE WHEN DeviceProtection = 'Yes' THEN 1 ELSE 0 END) as protection_users, " +
+            "  SUM(CASE WHEN TechSupport = 'Yes' THEN 1 ELSE 0 END) as support_users, " +
+            "  SUM(CASE WHEN StreamingTV = 'Yes' THEN 1 ELSE 0 END) as tv_users, " +
+            "  SUM(CASE WHEN StreamingMovies = 'Yes' THEN 1 ELSE 0 END) as movies_users " +
+            "FROM customers " +
+            "WHERE Churn = 'Yes'" +
+            ") " +
+            "SELECT " +
+            "  total_churned, " +
+            "  phone_users, " +
+            "  (phone_users * 100.0 / total_churned) as phone_churn_rate, " +
+            "  internet_users, " +
+            "  (internet_users * 100.0 / total_churned) as internet_churn_rate, " +
+            "  security_users, " +
+            "  (security_users * 100.0 / total_churned) as security_churn_rate, " +
+            "  backup_users, " +
+            "  (backup_users * 100.0 / total_churned) as backup_churn_rate, " +
+            "  protection_users, " +
+            "  (protection_users * 100.0 / total_churned) as protection_churn_rate, " +
+            "  support_users, " +
+            "  (support_users * 100.0 / total_churned) as support_churn_rate, " +
+            "  tv_users, " +
+            "  (tv_users * 100.0 / total_churned) as tv_churn_rate, " +
+            "  movies_users, " +
+            "  (movies_users * 100.0 / total_churned) as movies_churn_rate " +
+            "FROM service_stats";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                // 添加中心节点（客户流失）
+                Map<String, Object> centerNode = new HashMap<>();
+                centerNode.put("name", "客户流失");
+                centerNode.put("value", rs.getInt("total_churned"));
+                centerNode.put("symbolSize", 50);
+                centerNode.put("category", 0);
+                Map<String, String> itemStyle = new HashMap<>();
+                itemStyle.put("color", "#ee6666");
+                centerNode.put("itemStyle", itemStyle);
+                nodes.add(centerNode);
+
+                // 服务节点数据
+                String[][] services = {
+                    {"电话服务", "phone"},
+                    {"互联网", "internet"},
+                    {"在线安全", "security"},
+                    {"在线备份", "backup"},
+                    {"设备保护", "protection"},
+                    {"技术支持", "support"},
+                    {"流媒体TV", "tv"},
+                    {"流媒体电影", "movies"}
+                };
+
+                // 添加服务节点和连接
+                for (String[] service : services) {
+                    String serviceName = service[0];
+                    String serviceKey = service[1];
+                    int users = rs.getInt(serviceKey + "_users");
+                    double churnRate = rs.getDouble(serviceKey + "_churn_rate");
+
+                    // 添加节点
+                    Map<String, Object> node = new HashMap<>();
+                    node.put("name", serviceName);
+                    node.put("value", users);
+                    node.put("symbolSize", 30 + (users * 20.0 / rs.getInt("total_churned")));
+                    node.put("category", 1);
+                    nodes.add(node);
+
+                    // 添加连接
+                    Map<String, Object> link = new HashMap<>();
+                    link.put("source", "客户流失");
+                    link.put("target", serviceName);
+                    link.put("value", churnRate);
+                    Map<String, Object> lineStyle = new HashMap<>();
+                    lineStyle.put("width", 1 + (churnRate / 10));
+                    lineStyle.put("curveness", 0.2);
+                    link.put("lineStyle", lineStyle);
+                    links.add(link);
+                }
             }
         }
 

@@ -226,101 +226,194 @@ function loadDemographicAnalysis() {
         ]
     };
 
-    // 年龄-消费-流失气泡图配置
-    const ageBubbleOption = {
+    // 年龄消费气泡图配置
+    const bubbleChartOption = {
         backgroundColor: 'transparent',
         title: {
             text: '客户群体消费能力与流失风险分析',
             left: 'center',
-            top: '5%',
+            top: 10,
             textStyle: {
                 fontSize: 18,
                 fontWeight: 'bold',
                 color: '#fff'
             }
         },
-        legend: {
-            right: '5%',
-            top: '15%',
-            orient: 'vertical',
-            data: ['老年用户-成熟', '老年用户-新客', '年轻用户-成熟', '年轻用户-新客'],
+        tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+                return `客户群体: ${params.name}<br/>
+                        月均消费: ${params.value[0].toFixed(2)} 元<br/>
+                        流失率: ${params.value[1].toFixed(2)}%<br/>
+                        客户数量: ${params.value[2]} 人`;
+            },
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            borderColor: '#1890ff',
+            borderWidth: 1,
+            padding: [10, 15],
             textStyle: {
                 color: '#fff'
+            }
+        },
+        legend: {
+            right: 10,
+            top: 20,
+            orient: 'vertical',
+            itemGap: 15,
+            itemWidth: 10,
+            itemHeight: 10,
+            textStyle: {
+                color: '#fff',
+                fontSize: 12
             }
         },
         grid: {
             left: '8%',
             right: '15%',
             top: '20%',
-            bottom: '10%'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: function(params) {
-                return `客户群体: ${params.data.name}<br/>
-                        月均消费: ${params.data.value[0].toFixed(2)}元<br/>
-                        客户数量: ${params.data.value[1]}人<br/>
-                        流失率: ${params.data.value[2].toFixed(2)}%`;
-            }
+            bottom: '12%',
+            containLabel: true
         },
         xAxis: {
             type: 'value',
             name: '月均消费（元）',
-            axisLine: { lineStyle: { color: '#fff' } },
-            axisLabel: { color: '#fff' }
+            nameGap: 25,
+            min: 0,
+            max: 120,
+            interval: 20,
+            nameTextStyle: {
+                color: '#fff',
+                fontSize: 12,
+                padding: [0, 0, 0, 10]
+            },
+            axisLabel: {
+                color: '#fff',
+                formatter: '{value} 元',
+                fontSize: 11,
+                margin: 8
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: 'dashed',
+                    color: 'rgba(255,255,255,0.1)'
+                }
+            }
         },
         yAxis: {
             type: 'value',
             name: '流失率（%）',
-            nameTextStyle: { color: '#fff' },
-            axisLine: { lineStyle: { color: '#fff' } },
-            axisLabel: { color: '#fff' },
-            splitLine: { lineStyle: { type: 'dashed', color: 'rgba(255,255,255,0.2)' } }
+            nameGap: 25,
+            min: 0,
+            max: 100,
+            interval: 20,
+            nameTextStyle: {
+                color: '#fff',
+                fontSize: 12,
+                padding: [0, 10, 0, 0]
+            },
+            axisLabel: {
+                color: '#fff',
+                formatter: '{value}%',
+                fontSize: 11,
+                margin: 8
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: 'dashed',
+                    color: 'rgba(255,255,255,0.1)'
+                }
+            }
         },
         series: [
             {
                 name: '老年用户-成熟',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[1]) * 3;
+                    return Math.sqrt(data[2]) * 1.5;
                 },
                 itemStyle: {
                     color: '#91cc75',
-                    opacity: 0.8
-                }
+                    opacity: 0.8,
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(145, 204, 117, 0.3)'
+                },
+                emphasis: {
+                    itemStyle: {
+                        opacity: 1,
+                        shadowBlur: 20,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }
+                },
+                data: []
             },
             {
                 name: '老年用户-新客',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[1]) * 3;
+                    return Math.sqrt(data[2]) * 1.5;
                 },
                 itemStyle: {
                     color: '#fac858',
-                    opacity: 0.8
-                }
+                    opacity: 0.8,
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(250, 200, 88, 0.3)'
+                },
+                emphasis: {
+                    itemStyle: {
+                        opacity: 1,
+                        shadowBlur: 20,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }
+                },
+                data: []
             },
             {
                 name: '年轻用户-成熟',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[1]) * 3;
+                    return Math.sqrt(data[2]) * 1.5;
                 },
                 itemStyle: {
-                    color: '#ee6666',
-                    opacity: 0.8
-                }
+                    color: '#5470c6',
+                    opacity: 0.8,
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(84, 112, 198, 0.3)'
+                },
+                emphasis: {
+                    itemStyle: {
+                        opacity: 1,
+                        shadowBlur: 20,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }
+                },
+                data: []
             },
             {
                 name: '年轻用户-新客',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[1]) * 3;
+                    return Math.sqrt(data[2]) * 1.5;
                 },
                 itemStyle: {
-                    color: '#5470c6',
-                    opacity: 0.8
-                }
+                    color: '#ee6666',
+                    opacity: 0.8,
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(238, 102, 102, 0.3)'
+                },
+                emphasis: {
+                    itemStyle: {
+                        opacity: 1,
+                        shadowBlur: 20,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }
+                },
+                data: []
             }
         ]
     };
@@ -393,9 +486,17 @@ function loadDemographicAnalysis() {
         }]
     };
 
+    // 初始化所有图表
+    charts.genderDistribution = echarts.init(document.getElementById('genderDistribution'));
+    charts.ageServiceRadar = echarts.init(document.getElementById('ageServiceRadar'));
+    charts.ageBubble = echarts.init(document.getElementById('ageBubble'));
+    charts.demographicSankey = echarts.init(document.getElementById('demographicSankey'));
+
     // 设置初始配置
     charts.genderDistribution.setOption(genderChartOption);
     charts.ageServiceRadar.setOption(ageServiceChartOption);
+    charts.ageBubble.setOption(bubbleChartOption);
+    charts.demographicSankey.setOption(demographicSankeyOption);
 
     // 获取性别分布数据
     fetch(window.location.pathname + 'api/chart-data?type=gender')
@@ -459,10 +560,7 @@ function loadDemographicAnalysis() {
 
     // 获取年龄-消费-流失气泡图数据
     fetch(window.location.pathname + 'api/chart-data?type=age-bubble')
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             console.log('Age bubble data:', data);
             // 将数据分配到对应的系列中
@@ -474,7 +572,11 @@ function loadDemographicAnalysis() {
             };
             
             data.forEach(item => {
-                seriesData[item.name].push(item);
+                seriesData[item.name] = [[
+                    item.value[0],  // 月均消费
+                    item.value[2],  // 流失率
+                    item.value[1]   // 客户数量（用于气泡大小）
+                ]];
             });
             
             charts.ageBubble.setOption({
@@ -524,12 +626,4 @@ function loadDemographicAnalysis() {
             document.getElementById('demographicSankey').innerHTML = 
                 '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
         });
-
-    // 初始化图表
-    charts.ageBubble = echarts.init(document.getElementById('ageBubble'));
-    charts.demographicSankey = echarts.init(document.getElementById('demographicSankey'));
-
-    // 设置配置项
-    charts.ageBubble.setOption(ageBubbleOption);
-    charts.demographicSankey.setOption(demographicSankeyOption);
 } 

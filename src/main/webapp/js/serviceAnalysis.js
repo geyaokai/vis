@@ -178,9 +178,68 @@ function loadServiceAnalysis() {
         series: []
     };
 
-    // 设置初始配置
+    // 服务关系图配置
+    const relationChartOption = {
+        backgroundColor: 'transparent',
+        title: {
+            text: '服务与流失关系图',
+            left: 'center',
+            top: 10,
+            textStyle: {
+                fontSize: 18,
+                fontWeight: 'bold',
+                color: '#fff'
+            }
+        },
+        tooltip: {
+            formatter: function(params) {
+                if (params.dataType === 'edge') {
+                    return `${params.data.source} -> ${params.data.target}<br/>
+                            流失关联度: ${params.data.value.toFixed(2)}%`;
+                }
+                return `${params.name}<br/>
+                        流失客户数: ${params.value}`;
+            }
+        },
+        series: [{
+            type: 'graph',
+            layout: 'force',
+            animation: true,
+            draggable: true,
+            categories: [
+                {
+                    name: '中心'
+                },
+                {
+                    name: '服务'
+                }
+            ],
+            force: {
+                repulsion: 350,
+                edgeLength: [100, 200]
+            },
+            label: {
+                show: true,
+                position: 'right',
+                color: '#fff',
+                formatter: '{b}'
+            },
+            lineStyle: {
+                color: 'source',
+                opacity: 0.5
+            }
+        }]
+    };
+
+    // 初始化图表
+    charts.serviceHeatmap = echarts.init(document.getElementById('serviceHeatmap'));
+    charts.serviceTrend = echarts.init(document.getElementById('serviceTrend'));
+    charts.serviceRelation = echarts.init(document.getElementById('serviceRelation'));
+
+    // 设置配置项
     charts.serviceHeatmap.setOption(heatmapChartOption);
     charts.serviceTrend.setOption(trendChartOption);
+    charts.serviceRelation.setOption(relationChartOption);
 
     // 获取服务关联数据
     fetch(window.location.pathname + 'api/chart-data?type=service-correlation')
@@ -233,6 +292,27 @@ function loadServiceAnalysis() {
         .catch(error => {
             console.error('获取服务趋势数据失败:', error);
             document.getElementById('serviceTrend').innerHTML = 
+                '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
+        });
+
+    // 获取服务关系数据
+    fetch(window.location.pathname + 'api/chart-data?type=service-relation')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            console.log('Service relation data:', data);
+            charts.serviceRelation.setOption({
+                series: [{
+                    data: data.nodes,
+                    links: data.links
+                }]
+            });
+        })
+        .catch(error => {
+            console.error('获取服务关系数据失败:', error);
+            document.getElementById('serviceRelation').innerHTML = 
                 '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
         });
 } 

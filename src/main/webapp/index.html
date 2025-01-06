@@ -17,6 +17,11 @@
             <div class="nav-item" onclick="showSection('demographic-analysis')">人口统计分析</div>
             <div class="nav-item" onclick="showSection('service-analysis')">服务使用分析</div>
             <div class="nav-item" onclick="showSection('financial-analysis')">财务分析</div>
+            <div class="github-link">
+                <a href="https://github.com/geyaokai/vis.git" target="_blank">
+                    <img src="./images/github-mark-white.png" alt="GitHub" title="查看源代码">
+                </a>
+            </div>
         </div>
 
         <!-- 主要内容区域 -->
@@ -69,12 +74,17 @@
                 <!-- 服务使用分析 -->
                 <div id="service-analysis" class="section">
                     <h1 class="page-title">服务使用分析</h1>
-                    <div class="charts-container vertical">
+                    <div class="charts-container">
                         <div class="chart-container">
                             <div id="serviceHeatmap" class="chart"></div>
                         </div>
                         <div class="chart-container">
                             <div id="serviceTrend" class="chart"></div>
+                        </div>
+                    </div>
+                    <div class="charts-container" style="display: flex; justify-content: center;">
+                        <div class="chart-container" style="width: 60%;">
+                            <div id="serviceRelation" class="chart"></div>
                         </div>
                     </div>
                 </div>

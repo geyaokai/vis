@@ -91,6 +91,9 @@ public class ChartDataServlet extends HttpServlet {
                     jsonData = chartService.getDemographicSankeyData();
                     log.info("Demographic sankey data: {}", jsonData);
                     break;
+                case "service-relation":
+                    jsonData = chartService.getServiceChurnRelation();
+                    break;
                 default:
                     log.warn("Invalid type parameter: {}", type);
                     resp.setStatus(400);

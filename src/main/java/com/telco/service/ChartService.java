@@ -84,6 +84,14 @@ public class ChartService {
         Map<String, Object> data = telcoDao.getDemographicSankeyData();
         return gson.toJson(data);
     }
+
+    /**
+     * 获取服务与流失关系数据
+     */
+    public String getServiceChurnRelation() throws SQLException {
+        Map<String, Object> data = telcoDao.getServiceChurnRelation();
+        return gson.toJson(data);
+    }
     
     // 添加更多服务方法...
 } 

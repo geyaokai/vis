@@ -25,7 +25,7 @@ function loadChurnAnalysis() {
             }
         },
         legend: {
-            data: ['客户总数', '流失客户', '平均消费', '流失率'],
+            data: ['客户总数', '流失客户', '月平均消费', '流失率'],
             top: 40,
             textStyle: {
                 color: '#fff'
@@ -111,7 +111,7 @@ function loadChurnAnalysis() {
                 }
             },
             {
-                name: '平均消费',
+                name: '月平均消费',
                 type: 'line',
                 yAxisIndex: 1,
                 data: [],
@@ -429,7 +429,7 @@ function loadChurnAnalysis() {
                         data: data.churnCustomers
                     },
                     {
-                        name: '平均消费',
+                        name: '月平均消费',
                         data: data.avgCharges
                     },
                     {

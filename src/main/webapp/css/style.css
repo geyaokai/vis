@@ -16,6 +16,10 @@ body {
     background-color: #001529;
     padding: 20px 0;
     border-right: 1px solid #1890ff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .sidebar-title {
@@ -53,29 +57,17 @@ body {
 }
 
 .charts-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
 }
 
-.charts-container.vertical {
-    flex-direction: column;
-}
-
-.charts-container.vertical .chart-container {
-    width: 100%;
-    height: calc(50vh - 80px);  /* 减去标题和padding的高度 */
-}
-
 .chart-container {
-    flex: 1;
-    min-width: 45%;
-    height: 400px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chart {
@@ -198,4 +190,33 @@ body {
 .stat-trend.down {
     color: #ee6666;
     background: rgba(238, 102, 102, 0.1);
+}
+
+.github-link {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: auto;
+    z-index: 100;
+}
+
+.github-link img {
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #1890ff;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(24, 144, 255, 0.3);
+}
+
+.github-link img:hover {
+    opacity: 0.8;
+    transform: scale(1.1) rotate(360deg);
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(24, 144, 255, 0.5);
+    transition: all 0.5s ease;
 } 
