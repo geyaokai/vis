@@ -1,12 +1,69 @@
 # a simple visualization job
 
-## 1.  客户流失分析
+## 01项目简介
+
+**github链接：**[geyaokai/vis: 可视化](https://github.com/geyaokai/vis/tree/master)
+
+![image-20250106220936948](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501062209223.png)
+
+这个项目是一个电信客户流失分析系统，主要针对电信运营商的客户数据进行深入分析。从展示的图表和代码来看，项目的主要需求包括以下几个方面：
+
+1. 客户流失分析需求：
+
+- 客户生命周期阶段的流失风险分析
+- 不同合同类型的客户流失情况对比
+- 客户流失路径追踪
+- 流失预警机制的建立
+
+2. 人口统计分析需求：
+
+- 客户性别分布分析
+- 年龄段与服务使用的关联分析
+- 不同人群的消费能力分析
+- 客户群体画像构建
+
+3. 服务使用分析需求：
+
+- 各项服务之间的关联性分析
+- 服务订阅趋势追踪
+- 服务与流失的关系分析
+- 不同服务组合的效果评估
+
+4. 财务相关分析需求：
+
+- 月费用与总费用关系分析
+- 不同合同类型的费用分布分析
+- 高价值客户识别
+- 收入贡献度分析
+
+5. 技术实现需求：
+
+- 数据可视化展示
+- 实时数据更新
+- 交互式分析界面
+- 响应式设计适配
+
+这个系统的主要目标是帮助运营商：
+
+- 提前识别潜在的流失风险
+- 了解客户流失的主要原因
+- 制定针对性的客户维系策略
+- 优化服务组合和定价策略
+- 提升客户满意度和忠诚度
+
+## 02. 技术简介
+
+![1736172867984](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501062214572.jpg)
+
+## 03. 项目展示
+
+### 1.  客户流失分析
 
 **整体效果展示：**
 
 ![image-20250106160832775](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061608934.png)
 
-### 1.1 客户生命周期分析
+#### 1.1 客户生命周期分析
 
 ![image-20250106155023881](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061550974.png)
 
@@ -30,7 +87,7 @@
 
 
 
-### 1.2 不同合同类型的客户流失分析
+#### 1.2 不同合同类型的客户流失分析
 
 ![image-20250106160048403](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061600453.png)
 
@@ -49,7 +106,7 @@
 >
 > 这些数据表明，**公司应该考虑采取措施鼓励客户选择更长期的合同类型**，以降低整体流失率。
 
-### 1.3 客户流失路径分析
+#### 1.3 客户流失路径分析
 
 ![img](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061533917.png)
 
@@ -76,7 +133,7 @@
 >   - 其他原因：
 >     - 不属于上述任何类别的流失客户
 
-### 1.4 客户流失风险阶段分析
+#### 1.4 客户流失风险阶段分析
 
 ![image-20250106160117410](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061601459.png)
 
@@ -113,13 +170,13 @@
   - 使用光纤服务或月费用高于平均值
 - 确认流失：已经流失的客户
 
-## 2. 人口统计分析
+### 2. 人口统计分析
 
 **整体图像展示：**
 
 ![image-20250106181130984](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061811236.png)
 
-### 2.1 客户性别分布
+#### 2.1 客户性别分布
 
 ![image-20250106161127061](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061611133.png)
 
@@ -131,7 +188,7 @@
 >
 > 从图表数据可以得出以下关键信息：1) 男性客户总数约3555人（流失930人，未流失2625人），女性客户总数约3400人；2) 男女两性的流失比例相近，都在25%左右；3) 男性客户群体略大于女性客户群体，但差异不明显；4) 整体来看，未流失客户（绿色）显著多于流失客户（红色），表明公司整体的客户留存情况相对稳定。这些数据表明，客户流失与性别因素关联度不高，公司在制定留存策略时可能需要关注其他更具影响力的因素。
 
-### 2.2 不同年龄分类服务使用情况
+#### 2.2 不同年龄分类服务使用情况
 
 ![image-20250106161416754](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061614811.png)
 
@@ -151,7 +208,7 @@
 >
 > 这些信息表明，不同年龄段的客户有着明显不同的服务偏好，公司可以据此制定差异化的服务推广策略。
 
-### 2.3 客户群体消费能力与流失风险分析
+#### 2.3 客户群体消费能力与流失风险分析
 
 ![image-20250106180336847](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061803928.png)
 
@@ -165,7 +222,7 @@
 
 
 
-### 2.4 人口特征与服务选择关系
+#### 2.4 人口特征与服务选择关系
 
 ![image-20250106180759123](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061807252.png)
 
@@ -181,13 +238,13 @@
 
 
 
-## 3. 服务使用分析
+### 3. 服务使用分析
 
 **整体图像展示：**
 
 ![image-20250106181441809](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061814999.png)
 
-### 3.1 服务关联性分析
+#### 3.1 服务关联性分析
 
 ![img](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061533897.png)
 
@@ -209,7 +266,7 @@
 
 
 
-### 3.2 服务订阅分析
+#### 3.2 服务订阅分析
 
 ![image-20250106181655598](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061816656.png)
 
@@ -227,7 +284,7 @@
 
 
 
-### 3.3 服务与流失关系图
+#### 3.3 服务与流失关系图
 
 ![image-20250106181823823](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061818941.png)
 
@@ -245,13 +302,13 @@
 
 
 
-## 4. 财务分析
+### 4. 财务分析
 
 **整体图像展示：**
 
 ![image-20250106182245825](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061822007.png)
 
-### 4.1 月费用和总费用关系分析
+#### 4.1 月费用和总费用关系分析
 
 ![image-20250106182519241](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061825322.png)
 
@@ -267,16 +324,175 @@
 
 
 
-### 4.2 不同合同类型的费用分布
+#### 4.2 不同合同类型的费用分布
 
 ![](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061825584.png)
 
-> 
+> 图像描述：
+>
+> 这是一个箱线图（Box Plot），展示了三种不同合同类型（月付、年付、两年付）的月费用分布情况。图表使用蓝色箱体表示费用分布范围，红点表示异常值，并针对年付类型提供了详细的数据标注框。
+>
+> 数据分析：
+>
+> 从箱线图的数据分布可以得出以下关键信息：1) 年付类型的费用分布最分散，数据范围最广（最小值18.25元到最大值118.60元），中位数为68.75元，上四分位数94.80元，下四分位数26.90元；2) 月付类型的费用分布较为集中，中位数约在70元左右，主要分布在40-90元之间；3) 两年付类型的费用分布特征与月付相似，但整体水平略低，中位数约在60元左右；4) 所有类型都存在异常值点，表明在每种合同类型中都有一些特殊的消费群体。这些信息对于理解不同合同类型客户的消费能力和制定差异化定价策略具有重要参考价值。
 
 
 
-### 4.3 财务统计数据
+#### 4.3 财务统计数据
 
 ![image-20250106182619712](https://gyk-typora.oss-cn-beijing.aliyuncs.com/image/202501061826815.png)
 
-> 
+## 04. 技术亮点
+
+```mermaid
+mindmap
+  root((技术亮点))
+    子节点1(数据可视化的多样性和专业性)
+      多维度图表展示
+        桑基图展示客户流失路径
+        热力图展示服务关联性
+        雷达图展示服务使用情况
+        箱线图展示费用分布
+      前后端技术栈整合
+        ECharts + Java 的完美配合
+        数据实时更新机制
+        RESTful API 设计
+    子节点2(系统架构的优化)
+      模块化设计
+        独立分析模块
+          每个分析模块有独立的 js 文件
+          示例代码:
+            main.js
+            初始化模块
+            初始化图表和分析模块
+            加载分析模块
+      性能优化
+        异步加载策略
+          使用 fetch API 异步获取数据
+          错误处理机制确保优雅降级
+          并行请求提高加载效率
+        响应式渲染
+          监听窗口大小变化
+          自动调整图表大小
+          使用 resize 方法优化展示
+
+```
+
+
+
+### 1. 数据可视化的多样性和专业性
+
+多维度图表展示：
+
+- 使用桑基图展示客户流失路径
+- 使用热力图展示服务关联性
+- 使用雷达图展示服务使用情况
+- 使用箱线图展示费用分布
+
+前后端技术栈整合：
+
+- ECharts + Java 的完美配合
+- 数据实时更新机制
+- RESTful API 设计
+
+### 2. 系统架构的优化
+
+#### 2.1 模块化设计
+
+- 独立的分析模块：
+
+每个分析模块都有独立的 js 文件
+
+```js
+//main.js
+// 主模块负责初始化和模块管理
+function initCharts() {
+    // 各个独立模块的初始化
+    charts.lifeCycleAnalysis = echarts.init(document.getElementById('lifeCycleAnalysis'));
+    charts.contractAnalysis = echarts.init(document.getElementById('contractAnalysis'));
+    // ... 其他模块初始化
+}
+
+// 模块加载管理
+document.addEventListener('DOMContentLoaded', function() {
+    initSlideControls();    // 控制模块
+    initCharts();           // 图表模块
+    loadChurnAnalysis();    // 流失分析模块
+    loadDemographicAnalysis(); // 人口统计模块
+    loadServiceAnalysis();   // 服务分析模块
+    loadFinancialAnalysis(); // 财务分析模块
+});
+```
+
+#### 2.2 性能优化
+
+1. 异步加载策略
+
+   - 使用 fetch API 异步获取数据
+
+   - 错误处理机制确保加载失败时的优雅降级
+
+   - 多个数据请求并行处理，提高加载效率
+
+   ```js
+       // 获取生命周期分析数据
+       fetch(window.location.pathname + 'api/chart-data?type=lifecycle')
+           .then(response => {
+               if (!response.ok) throw new Error('Network response was not ok');
+               return response.json();
+           })
+           .then(data => {
+               charts.lifeCycleAnalysis.setOption({
+                   xAxis: {
+                       data: data.categories
+                   },
+                   series: [
+                       {
+                           name: '客户总数',
+                           data: data.totalCustomers
+                       },
+                       {
+                           name: '流失客户',
+                           data: data.churnCustomers
+                       },
+                       {
+                           name: '月平均消费',
+                           data: data.avgCharges
+                       },
+                       {
+                           name: '流失率',
+                           data: data.churnRates
+                       }
+                   ]
+               });
+           })
+           .catch(error => {
+               console.error('获取生命周期分析数据失败:', error);
+               document.getElementById('lifeCycleAnalysis').innerHTML = 
+                   '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
+           });
+   ```
+
+   
+
+2. 响应式渲染
+
+   - 监听窗口大小变化事件
+
+   - 自动调整所有图表大小
+
+   - 使用 resize 方法优化图表展示
+
+   ```js
+       // 设置响应式
+       window.addEventListener('resize', function() {
+           Object.values(charts).forEach(chart => chart.resize());
+       });
+   }
+   ```
+
+   
+
+## 05. 收获总结
+
+通过这个电信客户流失分析系统的开发，我不仅掌握了前后端分离架构和echarts的设计实现，还深入理解了模块化开发和数据可视化的最佳实践。在开发过程中，通过异步加载、数据缓存等技术的应用，提升了系统性能和用户体验。这个项目让我对数据可视化有了更深的认识，为今后的职业发展打下了良好基础。
