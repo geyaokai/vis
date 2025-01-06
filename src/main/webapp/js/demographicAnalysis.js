@@ -216,6 +216,185 @@ function loadDemographicAnalysis() {
         ]
     };
 
+    // 年龄-消费-流失气泡图配置
+    const ageBubbleOption = {
+        backgroundColor: 'transparent',
+        title: {
+            text: '年龄段消费能力与流失风险分析',
+            left: 'center',
+            top: 10,
+            textStyle: {
+                fontSize: 18,
+                fontWeight: 'bold',
+                color: '#fff'
+            }
+        },
+        legend: {
+            right: '10%',
+            top: '3%',
+            data: ['低风险', '中风险', '高风险'],
+            textStyle: {
+                color: '#fff'
+            }
+        },
+        grid: {
+            left: '8%',
+            right: '10%',
+            top: '20%',
+            bottom: '10%'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+                return `年龄段: ${params.data.name}<br/>
+                        平均消费: ${params.data.value[1]}元<br/>
+                        客户数量: ${params.data.value[2]}人<br/>
+                        流失率: ${params.data.value[3]}%`;
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: ['18-25岁', '26-35岁', '36-45岁', '46-55岁', '56-65岁', '65岁以上'],
+            axisLine: { lineStyle: { color: '#fff' } },
+            axisLabel: { color: '#fff' }
+        },
+        yAxis: {
+            type: 'value',
+            name: '月均消费（元）',
+            nameTextStyle: { color: '#fff' },
+            axisLine: { lineStyle: { color: '#fff' } },
+            axisLabel: { color: '#fff' },
+            splitLine: { lineStyle: { type: 'dashed', color: 'rgba(255,255,255,0.2)' } }
+        },
+        series: [
+            {
+                name: '低风险',
+                type: 'scatter',
+                symbolSize: function(data) {
+                    return Math.sqrt(data[2]) * 3;
+                },
+                itemStyle: {
+                    color: '#91cc75',
+                    opacity: 0.8
+                },
+                data: [
+                    {name: '18-25岁', value: [0, 150, 500, 5]},
+                    {name: '26-35岁', value: [1, 200, 800, 8]},
+                    {name: '36-45岁', value: [2, 250, 1000, 10]},
+                    {name: '46-55岁', value: [3, 180, 600, 12]},
+                    {name: '56-65岁', value: [4, 160, 400, 15]},
+                    {name: '65岁以上', value: [5, 140, 200, 18]}
+                ]
+            },
+            {
+                name: '中风险',
+                type: 'scatter',
+                symbolSize: function(data) {
+                    return Math.sqrt(data[2]) * 3;
+                },
+                itemStyle: {
+                    color: '#fac858',
+                    opacity: 0.8
+                },
+                data: [
+                    {name: '18-25岁', value: [0, 180, 300, 15]},
+                    {name: '26-35岁', value: [1, 250, 600, 18]},
+                    {name: '36-45岁', value: [2, 300, 800, 20]},
+                    {name: '46-55岁', value: [3, 220, 400, 22]},
+                    {name: '56-65岁', value: [4, 190, 300, 25]},
+                    {name: '65岁以上', value: [5, 170, 150, 28]}
+                ]
+            },
+            {
+                name: '高风险',
+                type: 'scatter',
+                symbolSize: function(data) {
+                    return Math.sqrt(data[2]) * 3;
+                },
+                itemStyle: {
+                    color: '#ee6666',
+                    opacity: 0.8
+                },
+                data: [
+                    {name: '18-25岁', value: [0, 220, 200, 25]},
+                    {name: '26-35岁', value: [1, 300, 400, 28]},
+                    {name: '36-45岁', value: [2, 350, 500, 30]},
+                    {name: '46-55岁', value: [3, 260, 300, 32]},
+                    {name: '56-65岁', value: [4, 220, 200, 35]},
+                    {name: '65岁以上', value: [5, 200, 100, 38]}
+                ]
+            }
+        ]
+    };
+
+    // 人口特征与服务选择桑基图配置
+    const demographicSankeyOption = {
+        backgroundColor: 'transparent',
+        title: {
+            text: '人口特征与服务选择关系',
+            left: 'center',
+            top: 10,
+            textStyle: {
+                fontSize: 18,
+                fontWeight: 'bold',
+                color: '#fff'
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [{
+            type: 'sankey',
+            left: '10%',
+            right: '10%',
+            emphasis: {
+                focus: 'adjacency'
+            },
+            data: [
+                {name: '年轻客户'},
+                {name: '中年客户'},
+                {name: '老年客户'},
+                {name: '男性'},
+                {name: '女性'},
+                {name: '基础套餐'},
+                {name: '标准套餐'},
+                {name: '高级套餐'},
+                {name: '流媒体服务'},
+                {name: '安全服务'},
+                {name: '技术支持'}
+            ],
+            links: [
+                {source: '年轻客户', target: '基础套餐', value: 500},
+                {source: '年轻客户', target: '标准套餐', value: 800},
+                {source: '年轻客户', target: '高级套餐', value: 300},
+                {source: '中年客户', target: '基础套餐', value: 400},
+                {source: '中年客户', target: '标准套餐', value: 900},
+                {source: '中年客户', target: '高级套餐', value: 500},
+                {source: '老年客户', target: '基础套餐', value: 600},
+                {source: '老年客户', target: '标准套餐', value: 400},
+                {source: '老年客户', target: '高级套餐', value: 100},
+                {source: '基础套餐', target: '流媒体服务', value: 800},
+                {source: '标准套餐', target: '流媒体服务', value: 1500},
+                {source: '高级套餐', target: '流媒体服务', value: 700},
+                {source: '基础套餐', target: '安全服务', value: 400},
+                {source: '标准套餐', target: '安全服务', value: 1200},
+                {source: '高级套餐', target: '安全服务', value: 800},
+                {source: '基础套餐', target: '技术支持', value: 300},
+                {source: '标准套餐', target: '技术支持', value: 1000},
+                {source: '高级套餐', target: '技术支持', value: 900}
+            ],
+            lineStyle: {
+                color: 'gradient',
+                curveness: 0.5
+            },
+            label: {
+                color: '#fff',
+                fontSize: 12
+            }
+        }]
+    };
+
     // 设置初始配置
     charts.genderDistribution.setOption(genderChartOption);
     charts.ageServiceRadar.setOption(ageServiceChartOption);
@@ -279,4 +458,12 @@ function loadDemographicAnalysis() {
             document.getElementById('ageServiceRadar').innerHTML = 
                 '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
         });
+
+    // 初始化图表
+    charts.ageBubble = echarts.init(document.getElementById('ageBubble'));
+    charts.demographicSankey = echarts.init(document.getElementById('demographicSankey'));
+
+    // 设置配置项
+    charts.ageBubble.setOption(ageBubbleOption);
+    charts.demographicSankey.setOption(demographicSankeyOption);
 } 
