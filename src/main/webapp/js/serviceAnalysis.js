@@ -76,12 +76,8 @@ function loadServiceAnalysis() {
             orient: 'horizontal',
             left: 'center',
             bottom: '15px',
-            itemWidth: 15,
-            itemHeight: 80,
-            text: ['高', '低'],
             textStyle: {
-                color: '#fff',
-                fontSize: 12
+                color: '#fff'
             },
             inRange: {
                 color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', 

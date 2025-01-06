@@ -6,7 +6,7 @@ let startY, startTop;
 let currentPage = 0;
 
 // 导航控制
-function showSection(sectionId) {
+function showSection(sectionId, event) {
     const sections = ['churn-analysis', 'demographic-analysis', 'service-analysis', 'financial-analysis'];
     const index = sections.indexOf(sectionId);
     if (index !== -1) {

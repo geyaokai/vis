@@ -129,7 +129,7 @@ function loadDemographicAnalysis() {
             }
         },
         legend: {
-            data: ['青年', '中年', '老年'],
+            data: ['老年用户-成熟', '老年用户-新客', '年轻用户-成熟', '年轻用户-新客'],
             bottom: 10,
             textStyle: {
                 color: '#fff'
@@ -174,7 +174,7 @@ function loadDemographicAnalysis() {
         },
         series: [
             {
-                name: '年龄段服务使用',
+                name: '客户群体服务使用',
                 type: 'radar',
                 symbolSize: 4,
                 lineStyle: {
@@ -182,17 +182,7 @@ function loadDemographicAnalysis() {
                 },
                 data: [
                     {
-                        name: '青年',
-                        value: [],
-                        itemStyle: {
-                            color: '#5470c6'
-                        },
-                        areaStyle: {
-                            opacity: 0.2
-                        }
-                    },
-                    {
-                        name: '中年',
+                        name: '老年用户-成熟',
                         value: [],
                         itemStyle: {
                             color: '#91cc75'
@@ -202,10 +192,30 @@ function loadDemographicAnalysis() {
                         }
                     },
                     {
-                        name: '老年',
+                        name: '老年用户-新客',
                         value: [],
                         itemStyle: {
                             color: '#fac858'
+                        },
+                        areaStyle: {
+                            opacity: 0.2
+                        }
+                    },
+                    {
+                        name: '年轻用户-成熟',
+                        value: [],
+                        itemStyle: {
+                            color: '#ee6666'
+                        },
+                        areaStyle: {
+                            opacity: 0.2
+                        }
+                    },
+                    {
+                        name: '年轻用户-新客',
+                        value: [],
+                        itemStyle: {
+                            color: '#5470c6'
                         },
                         areaStyle: {
                             opacity: 0.2
@@ -220,9 +230,9 @@ function loadDemographicAnalysis() {
     const ageBubbleOption = {
         backgroundColor: 'transparent',
         title: {
-            text: '年龄段消费能力与流失风险分析',
+            text: '客户群体消费能力与流失风险分析',
             left: 'center',
-            top: 10,
+            top: '5%',
             textStyle: {
                 fontSize: 18,
                 fontWeight: 'bold',
@@ -230,37 +240,38 @@ function loadDemographicAnalysis() {
             }
         },
         legend: {
-            right: '10%',
-            top: '3%',
-            data: ['低风险', '中风险', '高风险'],
+            right: '5%',
+            top: '15%',
+            orient: 'vertical',
+            data: ['老年用户-成熟', '老年用户-新客', '年轻用户-成熟', '年轻用户-新客'],
             textStyle: {
                 color: '#fff'
             }
         },
         grid: {
             left: '8%',
-            right: '10%',
+            right: '15%',
             top: '20%',
             bottom: '10%'
         },
         tooltip: {
             trigger: 'item',
             formatter: function(params) {
-                return `年龄段: ${params.data.name}<br/>
-                        平均消费: ${params.data.value[1]}元<br/>
-                        客户数量: ${params.data.value[2]}人<br/>
-                        流失率: ${params.data.value[3]}%`;
+                return `客户群体: ${params.data.name}<br/>
+                        月均消费: ${params.data.value[0].toFixed(2)}元<br/>
+                        客户数量: ${params.data.value[1]}人<br/>
+                        流失率: ${params.data.value[2].toFixed(2)}%`;
             }
         },
         xAxis: {
-            type: 'category',
-            data: ['18-25岁', '26-35岁', '36-45岁', '46-55岁', '56-65岁', '65岁以上'],
+            type: 'value',
+            name: '月均消费（元）',
             axisLine: { lineStyle: { color: '#fff' } },
             axisLabel: { color: '#fff' }
         },
         yAxis: {
             type: 'value',
-            name: '月均消费（元）',
+            name: '流失率（%）',
             nameTextStyle: { color: '#fff' },
             axisLine: { lineStyle: { color: '#fff' } },
             axisLabel: { color: '#fff' },
@@ -268,61 +279,48 @@ function loadDemographicAnalysis() {
         },
         series: [
             {
-                name: '低风险',
+                name: '老年用户-成熟',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[2]) * 3;
+                    return Math.sqrt(data[1]) * 3;
                 },
                 itemStyle: {
                     color: '#91cc75',
                     opacity: 0.8
-                },
-                data: [
-                    {name: '18-25岁', value: [0, 150, 500, 5]},
-                    {name: '26-35岁', value: [1, 200, 800, 8]},
-                    {name: '36-45岁', value: [2, 250, 1000, 10]},
-                    {name: '46-55岁', value: [3, 180, 600, 12]},
-                    {name: '56-65岁', value: [4, 160, 400, 15]},
-                    {name: '65岁以上', value: [5, 140, 200, 18]}
-                ]
+                }
             },
             {
-                name: '中风险',
+                name: '老年用户-新客',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[2]) * 3;
+                    return Math.sqrt(data[1]) * 3;
                 },
                 itemStyle: {
                     color: '#fac858',
                     opacity: 0.8
-                },
-                data: [
-                    {name: '18-25岁', value: [0, 180, 300, 15]},
-                    {name: '26-35岁', value: [1, 250, 600, 18]},
-                    {name: '36-45岁', value: [2, 300, 800, 20]},
-                    {name: '46-55岁', value: [3, 220, 400, 22]},
-                    {name: '56-65岁', value: [4, 190, 300, 25]},
-                    {name: '65岁以上', value: [5, 170, 150, 28]}
-                ]
+                }
             },
             {
-                name: '高风险',
+                name: '年轻用户-成熟',
                 type: 'scatter',
                 symbolSize: function(data) {
-                    return Math.sqrt(data[2]) * 3;
+                    return Math.sqrt(data[1]) * 3;
                 },
                 itemStyle: {
                     color: '#ee6666',
                     opacity: 0.8
+                }
+            },
+            {
+                name: '年轻用户-新客',
+                type: 'scatter',
+                symbolSize: function(data) {
+                    return Math.sqrt(data[1]) * 3;
                 },
-                data: [
-                    {name: '18-25岁', value: [0, 220, 200, 25]},
-                    {name: '26-35岁', value: [1, 300, 400, 28]},
-                    {name: '36-45岁', value: [2, 350, 500, 30]},
-                    {name: '46-55岁', value: [3, 260, 300, 32]},
-                    {name: '56-65岁', value: [4, 220, 200, 35]},
-                    {name: '65岁以上', value: [5, 200, 100, 38]}
-                ]
+                itemStyle: {
+                    color: '#5470c6',
+                    opacity: 0.8
+                }
             }
         ]
     };
@@ -428,26 +426,26 @@ function loadDemographicAnalysis() {
 
     // 获取年龄服务数据
     fetch(window.location.pathname + 'api/chart-data?type=age-service')
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log('Age-service data:', data);
             charts.ageServiceRadar.setOption({
                 series: [{
                     data: [
                         {
-                            name: '青年',
-                            value: data.young
+                            name: '老年用户-成熟',
+                            value: data.senior_mature
                         },
                         {
-                            name: '中年',
-                            value: data.middle
+                            name: '老年用户-新客',
+                            value: data.senior_new
                         },
                         {
-                            name: '老年',
-                            value: data.senior
+                            name: '年轻用户-成熟',
+                            value: data.young_mature
+                        },
+                        {
+                            name: '年轻用户-新客',
+                            value: data.young_new
                         }
                     ]
                 }]
@@ -456,6 +454,74 @@ function loadDemographicAnalysis() {
         .catch(error => {
             console.error('获取年龄服务数据失败:', error);
             document.getElementById('ageServiceRadar').innerHTML = 
+                '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
+        });
+
+    // 获取年龄-消费-流失气泡图数据
+    fetch(window.location.pathname + 'api/chart-data?type=age-bubble')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            console.log('Age bubble data:', data);
+            // 将数据分配到对应的系列中
+            const seriesData = {
+                '老年用户-成熟': [],
+                '老年用户-新客': [],
+                '年轻用户-成熟': [],
+                '年轻用户-新客': []
+            };
+            
+            data.forEach(item => {
+                seriesData[item.name].push(item);
+            });
+            
+            charts.ageBubble.setOption({
+                series: [
+                    {
+                        name: '老年用户-成熟',
+                        data: seriesData['老年用户-成熟']
+                    },
+                    {
+                        name: '老年用户-新客',
+                        data: seriesData['老年用户-新客']
+                    },
+                    {
+                        name: '年轻用户-成熟',
+                        data: seriesData['年轻用户-成熟']
+                    },
+                    {
+                        name: '年轻用户-新客',
+                        data: seriesData['年轻用户-新客']
+                    }
+                ]
+            });
+        })
+        .catch(error => {
+            console.error('获取年龄消费数据失败:', error);
+            document.getElementById('ageBubble').innerHTML = 
+                '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
+        });
+
+    // 获取人口特征与服务选择桑基图数据
+    fetch(window.location.pathname + 'api/chart-data?type=demographic-sankey')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            console.log('Demographic sankey data:', data);
+            charts.demographicSankey.setOption({
+                series: [{
+                    data: data.nodes,
+                    links: data.links
+                }]
+            });
+        })
+        .catch(error => {
+            console.error('获取人口特征服务选择数据失败:', error);
+            document.getElementById('demographicSankey').innerHTML = 
                 '<p style="color: red; text-align: center">加载数据失败: ' + error.message + '</p>';
         });
 

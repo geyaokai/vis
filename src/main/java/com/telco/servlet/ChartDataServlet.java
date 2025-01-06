@@ -83,6 +83,14 @@ public class ChartDataServlet extends HttpServlet {
                     jsonData = chartService.getChurnFunnelData();
                     log.info("Churn funnel data: {}", jsonData);
                     break;
+                case "age-bubble":
+                    jsonData = chartService.getAgeBubbleData();
+                    log.info("Age bubble data: {}", jsonData);
+                    break;
+                case "demographic-sankey":
+                    jsonData = chartService.getDemographicSankeyData();
+                    log.info("Demographic sankey data: {}", jsonData);
+                    break;
                 default:
                     log.warn("Invalid type parameter: {}", type);
                     resp.setStatus(400);

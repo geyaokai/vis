@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -85,9 +87,10 @@ public class TelcoDao {
         Map<String, List<Double>> usage = new HashMap<>();
         String sql = "SELECT " +
                 "CASE " +
-                "WHEN SeniorCitizen = 1 THEN 'senior' " +
-                "WHEN tenure < 24 THEN 'young' " +
-                "ELSE 'middle' " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN 'senior_mature' ELSE 'senior_new' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN 'young_mature' ELSE 'young_new' END " +
                 "END as age_group, " +
                 "AVG(CASE WHEN PhoneService = 'Yes' THEN 100 ELSE 0 END) as phone_service, " +
                 "AVG(CASE WHEN InternetService != 'No' THEN 100 ELSE 0 END) as internet_service, " +
@@ -99,9 +102,10 @@ public class TelcoDao {
                 "AVG(CASE WHEN StreamingMovies = 'Yes' THEN 100 ELSE 0 END) as streaming_movies " +
                 "FROM customers " +
                 "GROUP BY CASE " +
-                "WHEN SeniorCitizen = 1 THEN 'senior' " +
-                "WHEN tenure < 24 THEN 'young' " +
-                "ELSE 'middle' " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN 'senior_mature' ELSE 'senior_new' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN 'young_mature' ELSE 'young_new' END " +
                 "END";
 
         try (Connection conn = DBUtil.getConnection();
@@ -128,30 +132,97 @@ public class TelcoDao {
     // 获取服务关联性数据
     public List<List<Double>> getServiceCorrelation() throws SQLException {
         List<String> services = Arrays.asList(
-                "PhoneService", "InternetService", "OnlineSecurity", "OnlineBackup",
-                "DeviceProtection", "TechSupport", "StreamingTV", "StreamingMovies");
+                "phone", "internet", "security", "backup",
+                "protection", "support", "tv", "movies");
 
         List<List<Double>> correlation = new ArrayList<>();
 
-        for (String service1 : services) {
-            List<Double> row = new ArrayList<>();
-            for (String service2 : services) {
-                String sql = String.format(
-                        "SELECT (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM customers)) as correlation " +
-                                "FROM customers " +
-                                "WHERE %s = 'Yes' AND %s = 'Yes'",
-                        service1, service2);
+        String sql = "WITH service_users AS (" +
+            "SELECT " +
+            "  CASE WHEN PhoneService = 'Yes' THEN 1 ELSE 0 END as phone, " +
+            "  CASE WHEN InternetService != 'No' THEN 1 ELSE 0 END as internet, " +
+            "  CASE WHEN OnlineSecurity = 'Yes' THEN 1 ELSE 0 END as security, " +
+            "  CASE WHEN OnlineBackup = 'Yes' THEN 1 ELSE 0 END as backup, " +
+            "  CASE WHEN DeviceProtection = 'Yes' THEN 1 ELSE 0 END as protection, " +
+            "  CASE WHEN TechSupport = 'Yes' THEN 1 ELSE 0 END as support, " +
+            "  CASE WHEN StreamingTV = 'Yes' THEN 1 ELSE 0 END as tv, " +
+            "  CASE WHEN StreamingMovies = 'Yes' THEN 1 ELSE 0 END as movies " +
+            "FROM customers" +
+            ") " +
+            "SELECT " +
+            "  (SUM(phone) * 100.0 / COUNT(*)) as phone_usage, " +
+            "  (SUM(internet) * 100.0 / COUNT(*)) as internet_usage, " +
+            "  (SUM(security) * 100.0 / COUNT(*)) as security_usage, " +
+            "  (SUM(backup) * 100.0 / COUNT(*)) as backup_usage, " +
+            "  (SUM(protection) * 100.0 / COUNT(*)) as protection_usage, " +
+            "  (SUM(support) * 100.0 / COUNT(*)) as support_usage, " +
+            "  (SUM(tv) * 100.0 / COUNT(*)) as tv_usage, " +
+            "  (SUM(movies) * 100.0 / COUNT(*)) as movies_usage, " +
+            "  (SUM(CASE WHEN phone = 1 AND internet = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_internet, " +
+            "  (SUM(CASE WHEN phone = 1 AND security = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_security, " +
+            "  (SUM(CASE WHEN phone = 1 AND backup = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_backup, " +
+            "  (SUM(CASE WHEN phone = 1 AND protection = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_protection, " +
+            "  (SUM(CASE WHEN phone = 1 AND support = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_support, " +
+            "  (SUM(CASE WHEN phone = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_tv, " +
+            "  (SUM(CASE WHEN phone = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as phone_movies, " +
+            "  (SUM(CASE WHEN internet = 1 AND security = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_security, " +
+            "  (SUM(CASE WHEN internet = 1 AND backup = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_backup, " +
+            "  (SUM(CASE WHEN internet = 1 AND protection = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_protection, " +
+            "  (SUM(CASE WHEN internet = 1 AND support = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_support, " +
+            "  (SUM(CASE WHEN internet = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_tv, " +
+            "  (SUM(CASE WHEN internet = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as internet_movies, " +
+            "  (SUM(CASE WHEN security = 1 AND backup = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as security_backup, " +
+            "  (SUM(CASE WHEN security = 1 AND protection = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as security_protection, " +
+            "  (SUM(CASE WHEN security = 1 AND support = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as security_support, " +
+            "  (SUM(CASE WHEN security = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as security_tv, " +
+            "  (SUM(CASE WHEN security = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as security_movies, " +
+            "  (SUM(CASE WHEN backup = 1 AND protection = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as backup_protection, " +
+            "  (SUM(CASE WHEN backup = 1 AND support = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as backup_support, " +
+            "  (SUM(CASE WHEN backup = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as backup_tv, " +
+            "  (SUM(CASE WHEN backup = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as backup_movies, " +
+            "  (SUM(CASE WHEN protection = 1 AND support = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as protection_support, " +
+            "  (SUM(CASE WHEN protection = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as protection_tv, " +
+            "  (SUM(CASE WHEN protection = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as protection_movies, " +
+            "  (SUM(CASE WHEN support = 1 AND tv = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as support_tv, " +
+            "  (SUM(CASE WHEN support = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as support_movies, " +
+            "  (SUM(CASE WHEN tv = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as tv_movies, " +
+            "  (SUM(CASE WHEN tv = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as tv_movies, " +
+            "  (SUM(CASE WHEN tv = 1 AND movies = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as movies_movies " +
+            "FROM service_users";
 
-                try (Connection conn = DBUtil.getConnection();
-                        PreparedStatement stmt = conn.prepareStatement(sql);
-                        ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-                    if (rs.next()) {
-                        row.add(rs.getDouble("correlation"));
+            if (rs.next()) {
+                // 创建使用率映射
+                Map<String, Double> usageRates = new HashMap<>();
+                for (String service : services) {
+                    usageRates.put(service, rs.getDouble(service + "_usage"));
+                }
+
+                for (String service1 : services) {
+                    List<Double> row = new ArrayList<>();
+                    for (String service2 : services) {
+                        if (service1.equals(service2)) {
+                            // 对角线：显示该服务的使用率
+                            row.add(usageRates.get(service1));
+                        } else {
+                            // 非对角线：获取两个服务的关联度
+                            String columnName = service1.compareTo(service2) < 0 ?
+                                service1 + "_" + service2 :
+                                service2 + "_" + service1;
+                            try {
+                                row.add(rs.getDouble(columnName));
+                            } catch (SQLException e) {
+                                log.error("Error getting value for column: " + columnName, e);
+                                row.add(0.0);
+                            }
+                        }
                     }
+                    correlation.add(row);
                 }
             }
-            correlation.add(row);
         }
         return correlation;
     }
@@ -583,6 +654,113 @@ public class TelcoDao {
             result.put("reasons", reasons);
         }
 
+        return result;
+    }
+
+    // 获取年龄-消费-流失气泡图数据
+    public List<Map<String, Object>> getAgeBubbleData() throws SQLException {
+        List<Map<String, Object>> result = new ArrayList<>();
+        String sql = "SELECT " +
+                "CASE " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN '老年用户-成熟' ELSE '老年用户-新客' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN '年轻用户-成熟' ELSE '年轻用户-新客' END " +
+                "END as customer_group, " +
+                "AVG(MonthlyCharges) as avg_charges, " +
+                "COUNT(*) as customer_count, " +
+                "(SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as churn_rate " +
+                "FROM customers " +
+                "GROUP BY CASE " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN '老年用户-成熟' ELSE '老年用户-新客' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN '年轻用户-成熟' ELSE '年轻用户-新客' END " +
+                "END";
+
+        try (Connection conn = DBUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("name", rs.getString("customer_group"));
+                data.put("value", Arrays.asList(
+                    rs.getDouble("avg_charges"),
+                    rs.getInt("customer_count"),
+                    rs.getDouble("churn_rate")
+                ));
+                result.add(data);
+            }
+        }
+        return result;
+    }
+
+    // 获取人口特征与服务选择桑基图数据
+    public Map<String, Object> getDemographicSankeyData() throws SQLException {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> links = new ArrayList<>();
+
+        String sql = "SELECT " +
+                "CASE " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN '老年用户-成熟' ELSE '老年用户-新客' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN '年轻用户-成熟' ELSE '年轻用户-新客' END " +
+                "END as customer_group, " +
+                "CASE " +
+                "WHEN MonthlyCharges <= 50 THEN '基础套餐' " +
+                "WHEN MonthlyCharges <= 100 THEN '标准套餐' " +
+                "ELSE '高级套餐' END as service_level, " +
+                "COUNT(*) as count " +
+                "FROM customers " +
+                "GROUP BY " +
+                "CASE " +
+                "WHEN SeniorCitizen = 1 THEN " +
+                "   CASE WHEN tenure >= 24 THEN '老年用户-成熟' ELSE '老年用户-新客' END " +
+                "ELSE " +
+                "   CASE WHEN tenure >= 24 THEN '年轻用户-成熟' ELSE '年轻用户-新客' END " +
+                "END, " +
+                "CASE " +
+                "WHEN MonthlyCharges <= 50 THEN '基础套餐' " +
+                "WHEN MonthlyCharges <= 100 THEN '标准套餐' " +
+                "ELSE '高级套餐' END";
+
+        try (Connection conn = DBUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
+
+            // 添加节点
+            Set<String> nodeNames = new HashSet<>();
+            while (rs.next()) {
+                String ageGroup = rs.getString("customer_group");
+                String serviceLevel = rs.getString("service_level");
+                int count = rs.getInt("count");
+
+                if (!nodeNames.contains(ageGroup)) {
+                    Map<String, Object> node = new HashMap<>();
+                    node.put("name", ageGroup);
+                    nodes.add(node);
+                    nodeNames.add(ageGroup);
+                }
+                if (!nodeNames.contains(serviceLevel)) {
+                    Map<String, Object> node = new HashMap<>();
+                    node.put("name", serviceLevel);
+                    nodes.add(node);
+                    nodeNames.add(serviceLevel);
+                }
+
+                Map<String, Object> link = new HashMap<>();
+                link.put("source", ageGroup);
+                link.put("target", serviceLevel);
+                link.put("value", count);
+                links.add(link);
+            }
+        }
+
+        result.put("nodes", nodes);
+        result.put("links", links);
         return result;
     }
 

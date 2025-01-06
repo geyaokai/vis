@@ -74,6 +74,16 @@ public class ChartService {
         Map<String, Object> data = telcoDao.getChurnFunnelData();
         return gson.toJson(data);
     }
+
+    public String getAgeBubbleData() throws SQLException {
+        List<Map<String, Object>> data = telcoDao.getAgeBubbleData();
+        return gson.toJson(data);
+    }
+
+    public String getDemographicSankeyData() throws SQLException {
+        Map<String, Object> data = telcoDao.getDemographicSankeyData();
+        return gson.toJson(data);
+    }
     
     // 添加更多服务方法...
 } 
