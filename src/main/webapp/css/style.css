@@ -53,17 +53,29 @@ body {
 }
 
 .charts-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
 }
 
+.charts-container.vertical {
+    flex-direction: column;
+}
+
+.charts-container.vertical .chart-container {
+    width: 100%;
+    height: calc(50vh - 80px);  /* 减去标题和padding的高度 */
+}
+
 .chart-container {
+    flex: 1;
+    min-width: 45%;
+    height: 400px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .chart {
